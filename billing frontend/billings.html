@@ -1,0 +1,402 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Billing - Invoice Creation</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">Kani Medicals</h1>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+                Overview
+            </a>
+
+            <a href="products.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Products
+            </a>
+
+            <a href="billings.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Billing
+            </a>
+
+            <a href="invoices.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                    </path>
+                </svg>
+                Invoice
+            </a>
+        </nav>
+
+        <button class="logout-btn" id="logoutBtn">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+            </svg>
+            Logout
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-container">
+            <div class="invoice-container">
+                <h1 class="page-title">Invoice</h1>
+
+                <form id="invoiceForm">
+                    <!-- Invoice Details Row -->
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="invoiceDate">Invoice Date *:</label>
+                            <input class="form-input" type="date" id="invoiceDate" name="invoiceDate" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="dlNo">D.L NO *:</label>
+                            <input class="form-input" type="text" id="dlNo" name="dlNo" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="invoiceNumber">Invoice Number *:</label>
+                            <input class="form-input" type="text" id="invoiceNumber" name="invoiceNumber"
+                                placeholder="Enter Invoice Number" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="licenseNo">License NO *:</label>
+                            <input class="form-input" type="text" id="licenseNo" name="licenseNo" required />
+                        </div>
+                    </div>
+
+                    <!-- Billing Information -->
+                    <div class="billing-info">
+                        <!-- Bill From -->
+                        <div class="billing-section">
+                            <h3 class="section-title">Bill From</h3>
+                            <div class="form-section">
+                                <div class="form-group">
+                                    <label class="form-label" for="billFromName">Name *:</label>
+                                    <input class="form-input" type="text" id="billFromName" name="billFromName"
+                                        placeholder="Enter Your Name" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="billFromPhone">Phone Number *:</label>
+                                    <input class="form-input" type="tel" id="billFromPhone" name="billFromPhone"
+                                        placeholder="Enter Your Phone Number" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="billFromAddress">Address *:</label>
+                                    <input class="form-input" type="text" id="billFromAddress" name="billFromAddress"
+                                        placeholder="Enter Your Address" required />
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Bill To -->
+                        <div class="billing-section">
+                            <h3 class="section-title">Bill To</h3>
+                            <div class="form-section">
+                                <div class="form-group">
+                                    <label class="form-label" for="billToName">Name *:</label>
+                                    <input class="form-input" type="text" id="billToName" name="billToName"
+                                        placeholder="Enter Your Name" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="billToPhone">Phone Number *:</label>
+                                    <input class="form-input" type="tel" id="billToPhone" name="billToPhone"
+                                        placeholder="Enter Your Phone Numbers" required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="form-label" for="billToAddress">Address *:</label>
+                                    <input class="form-input" type="text" id="billToAddress" name="billToAddress"
+                                        placeholder="Enter Your Address" required />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="additem btn btn-primary "><a href="products.html">Add item</a> 
+                    </button>
+
+                    <!-- Invoice Items Table -->
+                    <div class="invoice-table-container">
+                        <table class="invoice-table">
+                            <thead>
+                                <tr>
+                                    <th>S.no</th>
+                                    <th>Items Summary</th>
+                                    <th>Batch No</th>
+                                    <th>Price</th>
+                                    <th>Quantity</th>
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody id="invoiceItemsBody">
+                                <tr>
+                                    <td>1.</td>
+                                    <td>LATACK 150MG TAB</td>
+                                    <td>10-S CAVTAX-007</td>
+                                    <td>12.30</td>
+                                    <td>1</td>
+                                    <td>12.30</td>
+                                </tr>
+                                <tr>
+                                    <td>2.</td>
+                                    <td>MONORIN 150 TAB</td>
+                                    <td>30-E847510142</td>
+                                    <td>40.87</td>
+                                    <td>1</td>
+                                    <td>40.87</td>
+                                </tr>
+                                <tr style="border-top: 2px solid #e2e8f0">
+                                    <td colspan="5" style="text-align: right; font-weight: 600">
+                                        Subtotal:
+                                    </td>
+                                    <td id="subtotalAmount">53.17</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                        <div style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                  margin-top: 24px;
+                ">
+                            <div class="form-group">
+                                <label class="form-label" for="paymentMode">Payment Mode *:</label>
+                                <select class="form-input" id="paymentMode" name="paymentMode" required>
+                                    <option value="">-- Select Mode --</option>
+                                    <option value="Cash">Cash</option>
+                                    <option value="Card">Card</option>
+                                    <option value="UPI">UPI</option>
+                                    <option value="Net Banking">Net Banking</option>
+                                </select>
+                            </div>
+
+                            <div style="
+                    background: var(--primary-blue);
+                    color: white;
+                    padding: 12px 24px;
+                    border-radius: 8px;
+                    font-weight: 600;
+                  ">
+                                Total: <span id="totalAmount">53.17</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Generate Bill Button -->
+                    <div class="text-center">
+                        <button type="submit" class="btn btn-primary" id="generateBillBtn"
+                            style="padding: 16px 32px; font-size: 16px">
+                            <span id="generateBtnText">Generate Bill</span>
+                            <div id="generateSpinner" class="spinner hidden"></div>
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Messages -->
+            <div id="successMessage" class="success-message hidden"></div>
+            <div id="errorMessage" class="error-message hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080";
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                window.location.href = "login.html";
+                return false;
+            }
+            return true;
+        }
+
+        // Logout
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("authToken");
+            window.location.href = "login.html";
+        });
+
+        // Generic API call
+        async function apiCall(endpoint, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            const merged = {
+                ...defaultOptions,
+                ...options,
+                headers: { ...defaultOptions.headers, ...options.headers }
+            };
+            const res = await fetch(`${API_BASE}${endpoint}`, merged);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return res.json();
+        }
+
+        function showMessage(message, type = "success") {
+            const el = document.getElementById(type === "success" ? "successMessage" : "errorMessage");
+            el.textContent = message;
+            el.classList.remove("hidden");
+            setTimeout(() => el.classList.add("hidden"), 5000);
+        }
+
+        document.addEventListener("DOMContentLoaded", () => {
+            if (localStorage.getItem("justAddedToCart") === "true") {
+                showMessage("Item added to cart!");
+                localStorage.removeItem("justAddedToCart"); // clear it so it doesn't show again
+            }
+
+            populateCartItems(); // don't forget to call this!
+        });
+
+
+        document.addEventListener("DOMContentLoaded", populateCartItems);
+
+        function populateCartItems() {
+            const cartItems = JSON.parse(localStorage.getItem("cartItems") || "[]");
+            const tbody = document.getElementById("invoiceItemsBody");
+            tbody.innerHTML = "";
+
+            if (cartItems.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;">No items in cart</td></tr>`;
+                document.getElementById("totalAmount").textContent = "0.00";
+                return;
+            }
+
+            let subtotal = 0;
+            cartItems.forEach((item, i) => {
+                const total = item.price * item.quantity;
+                subtotal += total;
+                const row = `
+          <tr>
+            <td>${i + 1}</td>
+            <td>${item.productName}</td>
+            <td>${item.batchNo}</td>
+            <td>${item.price.toFixed(2)}</td>
+            <td>${item.quantity}</td>
+            <td>${total.toFixed(2)}</td>
+          </tr>`;
+                tbody.insertAdjacentHTML("beforeend", row);
+            });
+
+            const subtotalRow = `
+        <tr style="border-top: 2px solid #e2e8f0">
+          <td colspan="5" style="text-align: right; font-weight: 600">Subtotal:</td>
+          <td id="subtotalAmount">${subtotal.toFixed(2)}</td>
+        </tr>`;
+            tbody.insertAdjacentHTML("beforeend", subtotalRow);
+
+            document.getElementById("totalAmount").textContent = subtotal.toFixed(2);
+        }
+
+
+        function setDefaultDate() {
+            document.getElementById("invoiceDate").value = new Date().toISOString().split("T")[0];
+        }
+
+        function generateInvoiceNumber() {
+            document.getElementById("invoiceNumber").value = `INV-${Date.now()}`;
+        }
+
+        document.getElementById("invoiceForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const invoiceData = Object.fromEntries(formData.entries());
+
+            const items = [];
+            document.querySelectorAll("#invoiceItemsBody tr").forEach((row) => {
+                const cells = row.querySelectorAll("td");
+                if (cells.length === 6 && !row.querySelector("[colspan]")) {
+                    items.push({
+                        id: items.length + 1,
+                        productName: cells[1].textContent,
+                        batchNo: cells[2].textContent,
+                        price: parseFloat(cells[3].textContent),
+                        quantity: parseInt(cells[4].textContent),
+                        total: parseFloat(cells[5].textContent),
+                    });
+                }
+            });
+
+            if (items.length === 0) {
+                showMessage("No items in cart to invoice.", "error");
+                return;
+            }
+
+            const subtotal = parseFloat(document.getElementById("subtotalAmount").textContent);
+            const total = parseFloat(document.getElementById("totalAmount").textContent);
+
+            const orderData = { ...invoiceData, items, paymentMode: invoiceData.paymentMode, subtotal, total };
+
+            const btn = document.getElementById("generateBillBtn");
+            const btnText = document.getElementById("generateBtnText");
+            const spinner = document.getElementById("generateSpinner");
+
+            btn.disabled = true;
+            btnText.classList.add("hidden");
+            spinner.classList.remove("hidden");
+
+            try {
+                const response = await apiCall("/orders/create", {
+                    method: "POST",
+                    body: JSON.stringify(orderData),
+                });
+
+                localStorage.setItem("currentInvoice", JSON.stringify(response));
+                showMessage("Invoice created successfully!");
+                setTimeout(() => (window.location.href = "invoices.html"), 1000);
+            } catch (err) {
+                showMessage("Failed to create invoice. Please try again.", "error");
+            } finally {
+                btn.disabled = false;
+                btnText.classList.remove("hidden");
+                spinner.classList.add("hidden");
+            }
+        });
+
+        // Page Init
+        if (checkAuth()) {
+            setDefaultDate();
+            generateInvoiceNumber();
+            populateCartItems();
+        }
+    </script>
+
+</body>
+
+</html>

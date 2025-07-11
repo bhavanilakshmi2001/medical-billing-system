@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medical Billing Login</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
+
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-bg"></div>
+
+        <div class="login-form-container">
+            <h1 class="login-title">Login</h1>
+
+            <form class="login-form" id="loginForm">
+                <div class="input-group">
+                    <i class="fa-regular fa-envelope input-icon" style="color:white;" ></i>
+                    <input type="email" class="login-input" id="email" placeholder="Enter Your Mail I'd" required >
+                </div>
+
+                <div class="input-group">
+                    <i class="fa-solid fa-lock input-icon" style="color:white;" class="input-icon"></i>
+                    <input type="password" class="login-input" id="password" placeholder="Enter Your Password" required>
+                    <button type="button" class="password-toggle" id="passwordToggle">
+                        <svg id="eyeIcon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z">
+                            </path>
+                        </svg>
+                        <svg id="eyeOffIcon" class="hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.878 9.878L3 3m6.878 6.878L21 21">
+                            </path>
+                        </svg>
+                    </button>
+                </div>
+
+                <a href="#" class="forgot-password">Forgot Password?</a>
+
+                <button type="submit" class="login-btn" id="loginBtn">
+                    <span id="loginBtnText">Login</span>
+                    <div id="loginSpinner" class="spinner hidden"></div>
+                </button>
+            </form>
+
+            <div id="errorMessage" class="error-message hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:8080';
+
+        // Login form submission
+            document.getElementById('loginForm').addEventListener('submit', async function (e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+                const loginBtn = document.getElementById('loginBtn');
+                const loginBtnText = document.getElementById('loginBtnText');
+                const loginSpinner = document.getElementById('loginSpinner');
+                const errorMessage = document.getElementById('errorMessage');
+
+                // Show loading state
+                loginBtn.disabled = true;
+                loginBtnText.classList.add('hidden');
+                loginSpinner.classList.remove('hidden');
+                errorMessage.classList.add('hidden');
+
+                try {
+                    const response = await fetch(`${API_BASE}/user/login`, {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            email: email,
+                            password: password
+                        })
+                    });
+
+                    const text = await response.text();
+
+                    if (response.ok && text.includes("Login Successful")) {
+                        // Fake token for demonstration, since backend doesn't send one
+                        const dummyToken = 'dummy-auth-token';
+                        const dummyUser = { email };
+
+                        localStorage.setItem('authToken', dummyToken);
+                        localStorage.setItem('user', JSON.stringify(dummyUser));
+
+                        // Redirect to dashboard
+                        window.location.href = 'index.html';
+                    } else {
+                        throw new Error(text);
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    errorMessage.textContent = error.message || 'Login failed. Please try again.';
+                    errorMessage.classList.remove('hidden');
+                } finally {
+                    // Reset button state
+                    loginBtn.disabled = false;
+                    loginBtnText.classList.remove('hidden');
+                    loginSpinner.classList.add('hidden');
+                }
+            });
+
+            const passwordInput = document.getElementById("password");
+                const toggleButton = document.getElementById("passwordToggle");
+                const eyeIcon = document.getElementById("eyeIcon");
+                const eyeOffIcon = document.getElementById("eyeOffIcon");
+
+                toggleButton.addEventListener("click", function () {
+                    const isPassword = passwordInput.getAttribute("type") === "password";
+                    passwordInput.setAttribute("type", isPassword ? "text" : "password");
+
+                    eyeIcon.classList.toggle("hidden", !isPassword);
+                    eyeOffIcon.classList.toggle("hidden", isPassword);
+                });
+    </script>
+</body>
+
+</html>

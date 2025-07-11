@@ -1,0 +1,364 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Billing - Invoice Preview</title>
+    <link rel="stylesheet" href="styles.css" />
+
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">Kani Medicals</h1>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+                Overview
+            </a>
+
+            <a href="products.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Products
+            </a>
+
+            <a href="billings.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Billing
+            </a>
+
+            <a href="invoices.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                    </path>
+                </svg>
+                Invoice
+            </a>
+        </nav>
+
+        <button class="logout-btn" id="logoutBtn">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+            </svg>
+            Logout
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-container">
+            <!-- Invoice Preview -->
+            <div class="invoice-container" id="invoicePreview">
+                <!-- Invoice Header -->
+                <div class="invoice-header">
+                    <div class="company-info">
+                        <h1>Kani Medicals</h1>
+                        <div class="company-address">
+                            16/15A, Kani Medicals, Karmaegam Street,<br />
+                            Kumbakonam Viddha, Thanjavur(Dist),<br />
+                            Tamil Nadu 612003
+                        </div>
+                    </div>
+                    <div class="invoice-details">
+                        <div>Invoice No: <span id="invoiceNumber">508184/78</span></div>
+                        <div>Date: <span id="invoiceDate">12/04/2025</span></div>
+                        <div>D.L No: <span id="dlNumber">TN-14-20-904834</span></div>
+                    </div>
+                </div>
+
+                <!-- Billing Information -->
+                <div class="billing-info">
+                    <div class="billing-section">
+                        <h3>Invoice To:</h3>
+                        <div class="billing-details" id="billToDetails">
+                            Sheetha<br />
+                            78 Milton Street, Tenkasi<br />
+                            Phone: 9451024859
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Items Table -->
+                <div class="invoice-table-container">
+                    <table class="invoice-table">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th>Items Summary</th>
+                                <th>Batch No</th>
+                                <th>Price</th>
+                                <th>Quantity</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody id="invoiceTableBody">
+                            <!-- Default items - will be replaced by dynamic data -->
+                            <tr>
+                                <td>1.</td>
+                                <td>LATACK 150MG TAB</td>
+                                <td>10-S CAVTAX-007</td>
+                                <td>12.30</td>
+                                <td>1</td>
+                                <td>12.30</td>
+                            </tr>
+                            <tr>
+                                <td>2.</td>
+                                <td>MONORIN 150 TAB</td>
+                                <td>30-E847510142</td>
+                                <td>40.87</td>
+                                <td>1</td>
+                                <td>40.87</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Invoice Totals -->
+                <div class="invoice-totals">
+                    <div class="totals-section">
+                        <div class="total-row">
+                            <span>Discount:</span>
+                            <span id="discountPercent">10%</span>
+                        </div>
+                        <div class="total-final">
+                            <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                  ">
+                                <span>Total:</span>
+                                <span id="finalTotal">47.95₹</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Invoice Footer -->
+                <div class="invoice-footer">
+                    All Kind of English and Veterinary Medicines Available At 24/7
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+                <button class="btn btn-success" id="printBtn">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z">
+                        </path>
+                    </svg>
+                    Print
+                </button>
+                <button class="btn btn-primary" id="downloadBtn" onclick="downloadInvoicePdf(invoiceId)">
+                    <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                        </path>
+                    </svg>
+                    Download
+                </button>
+            </div>
+
+            <!-- Messages -->
+            <div id="successMessage" class="success-message hidden"></div>
+            <div id="errorMessage" class="error-message hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080";
+
+        // Auth Check
+        function checkAuth() {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                window.location.href = "login.html";
+                return false;
+            }
+            return true;
+        }
+
+        // Logout Handler
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        });
+
+        // Show message
+        function showMessage(msg, type = "success") {
+            const el = document.getElementById(type === "success" ? "successMessage" : "errorMessage");
+            el.textContent = msg;
+            el.classList.remove("hidden");
+            setTimeout(() => el.classList.add("hidden"), 4000);
+        }
+
+        // Format date
+        function formatDate(dateStr) {
+            return new Date(dateStr).toLocaleDateString("en-GB");
+        }
+
+        let invoiceId = null;
+
+        function loadInvoiceData() {
+            const stored = localStorage.getItem("currentInvoice");
+            if (stored) {
+                try {
+                    const data = JSON.parse(stored);
+                    invoiceId = data.id;
+                    populateInvoiceData(data);
+                    localStorage.removeItem("cartItems");
+                    return;
+                } catch (e) {
+                    console.error("Parse error:", e);
+                }
+            }
+            loadDefaultInvoiceData();
+        }
+
+        function populateInvoiceData(data) {
+            if (data.invoiceNumber) document.getElementById("invoiceNumber").textContent = data.invoiceNumber;
+            if (data.invoiceDate) document.getElementById("invoiceDate").textContent = formatDate(data.invoiceDate);
+            if (data.dlNo) document.getElementById("dlNumber").textContent = data.dlNo;
+            if (data.billToName || data.billToAddress || data.billToPhone) {
+                document.getElementById("billToDetails").innerHTML = `
+              ${data.billToName || 'Customer'}<br>
+              ${data.billToAddress || 'Address'}<br>
+              Phone: ${data.billToPhone || 'Phone'}
+            `;
+            }
+            if (data.items && data.items.length > 0) {
+                populateInvoiceItems(data.items);
+            }
+            // Calculate total from items
+            const total = data.items.reduce((sum, item) => sum + item.total, 0);
+            const discountPercent = 15;
+            const discount = data.discountPercent !== undefined ? data.discountPercent : 15;
+            const discountAmount = (discount / 100) * total;
+            const finalTotal = (total - discountAmount).toFixed(2);
+
+            // Set UI
+            document.getElementById("discountPercent").textContent = `${discountPercent}%`;
+            document.getElementById("finalTotal").textContent = `${finalTotal}₹`;
+        }
+
+
+
+        function populateInvoiceItems(items) {
+            const tbody = document.getElementById("invoiceTableBody");
+            tbody.innerHTML = items.map((item, i) => `
+            <tr>
+              <td>${i + 1}.</td>
+              <td>${item.productName}</td>
+              <td>${item.batchNo}</td>
+             <td>${item.price.toFixed(2)}</td>
+              <td>${item.quantity}</td>
+              <td>${item.total.toFixed(2)}</td>
+            </tr>
+          `).join("");
+        }
+
+        function loadDefaultInvoiceData() {
+            const items = [
+                {
+                    productName: "LATACK 150MG TAB",
+                    batchNo: "10-S CAVTAX-007",
+                    price: 12.3,
+                    quantity: 1,
+                    total: 12.3,
+                },
+                {
+                    productName: "MONORIN 150 TAB",
+                    batchNo: "30-E847510142",
+                    price: 40.87,
+                    quantity: 1,
+                    total: 40.87,
+                },
+            ];
+            populateInvoiceItems(items);
+            const total = items.reduce((sum, item) => sum + item.total, 0);
+            const discountPercent = 10;
+            const discount = (discountPercent / 100) * total;
+            const final = (total - discount).toFixed(2);
+
+            document.getElementById("discountPercent").textContent = `${discountPercent}%`;
+            document.getElementById("finalTotal").textContent = `${final}₹`;
+        }
+
+        // Print Handler
+        document.getElementById("printBtn").addEventListener("click", () => {
+            const sidebar = document.querySelector(".sidebar");
+            const buttons = document.querySelector(".action-buttons");
+            const mainContent = document.querySelector(".main-content");
+
+            sidebar.style.display = "none";
+            buttons.style.display = "none";
+            mainContent.style.marginLeft = "0";
+
+            window.print();
+
+            sidebar.style.display = "block";
+            buttons.style.display = "flex";
+            mainContent.style.marginLeft = "256px";
+
+            localStorage.removeItem("currentInvoice");
+
+            showMessage("Invoice printed successfully!");
+        });
+
+
+
+        function downloadInvoicePdf(invoiceId) {
+            const url = `${API_BASE}/orders/invoice-pdf?id=${invoiceId}`;
+            fetch(url)
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Invoice not found");
+                    }
+                    return response.blob();
+                })
+                .then(blob => {
+                    const blobUrl = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = blobUrl;
+                    a.download = `invoice-${invoiceId}.pdf`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(blobUrl);
+
+                    localStorage.removeItem("currentInvoice");
+
+                    showMessage("Invoice downloaded successfully!");
+                })
+                .catch(error => {
+                    alert("Failed to download invoice PDF: " + error.message);
+                });
+        }
+
+
+        // Initialize
+        if (checkAuth()) loadInvoiceData();
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Billing - Products</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">Kani Medicals</h1>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+                Overview
+            </a>
+
+            <a href="products.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Products
+            </a>
+
+            <a href="billings.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Billing
+            </a>
+
+            <a href="invoices.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                    </path>
+                </svg>
+                Invoice
+            </a>
+        </nav>
+
+        <button class="logout-btn" id="logoutBtn">
+            <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013 3v1"></path>
+            </svg>
+            Logout
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-container">
+            <!-- Products List View -->
+            <div id="productsListView">
+                <div class="page-header">
+                    <button class="btn btn-primary" id="createNewBtn">
+                        <svg class="btn-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>
+                        </svg>
+                        Create New
+                    </button>
+                </div>
+
+                <div class="table-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>S.no</th>
+                                <th>Product Name</th>
+                                <th>Batch No</th>
+                                <th>Expiry Date</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Cart</th>
+                            </tr>
+                        </thead>
+                        <tbody id="productsTableBody">
+                            <!-- Products will be dynamically populated -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="text-center">
+                    <button class="btn btn-primary" id="addToCartBtn" onclick="addToCart()">Add to Cart</button>
+                </div>
+            </div>
+
+            <!-- Add Product Form View -->
+            <div id="addProductView" class="hidden">
+                <div class="page-header">
+                    <button class="btn btn-secondary" id="backToListBtn">
+                        ← Back to Products
+                    </button>
+                    <button class="btn btn-primary">+ Add New</button>
+                </div>
+
+                <div class="form-container">
+                    <form id="addProductForm">
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label" for="batchNo">Batch No *</label>
+                                <input class="form-input" type="text" id="batchNo" name="batchNo" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="productName">Product Name *</label>
+                                <input class="form-input" type="text" id="productName" name="productName" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="itemDescription">Item Description *</label>
+                                <input class="form-input" type="text" id="itemDescription" name="itemDescription"
+                                    required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="quantity">Quantity *</label>
+                                <input class="form-input" type="number" id="quantity" name="quantity" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="price">Price *</label>
+                                <input class="form-input" type="number" step="0.01" id="price" name="price" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="expiryDate">Expiry Date *</label>
+                                <input class="form-input" type="date" id="expiryDate" name="expiryDate" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="stock">Stock *</label>
+                                <input class="form-input" type="text" id="stock" name="stock" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="mrp">MRP *</label>
+                                <input class="form-input" type="number" step="0.01" id="mrp" name="mrp" required />
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" for="hsn">HSN *</label>
+                                <input class="form-input" type="text" id="hsn" name="hsn" required />
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-primary" id="submitProductBtn">
+                                <span id="submitBtnText">Submit</span>
+                                <div id="submitSpinner" class="spinner hidden"></div>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Messages -->
+            <div id="successMessage" class="success-message hidden"></div>
+            <div id="errorMessage" class="error-message hidden"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080";
+
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                window.location.href = "login.html";
+                return false;
+            }
+            return true;
+        }
+
+        // Logout
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("authToken");
+            window.location.href = "login.html";
+        });
+
+        // Generic API call
+        async function apiCall(endpoint, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            const merged = {
+                ...defaultOptions,
+                ...options,
+                headers: { ...defaultOptions.headers, ...options.headers }
+            };
+            const res = await fetch(`${API_BASE}${endpoint}`, merged);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return res.json();
+        }
+
+        // Show success/error message
+        function showMessage(message, type = "success") {
+            const el = document.getElementById(type === "success" ? "successMessage" : "errorMessage");
+            el.textContent = message;
+            el.classList.remove("hidden");
+
+            setTimeout(() => el.classList.add("hidden"), 5000);
+        }
+
+        // Switch views
+        function showListView() {
+            document.getElementById("productsListView").classList.remove("hidden");
+            document.getElementById("addProductView").classList.add("hidden");
+        }
+
+        function showAddView() {
+            document.getElementById("productsListView").classList.add("hidden");
+            document.getElementById("addProductView").classList.remove("hidden");
+        }
+
+        // View switch buttons
+        document.getElementById("createNewBtn").addEventListener("click", showAddView);
+        document.getElementById("backToListBtn").addEventListener("click", showListView);
+
+        // Load product list
+        async function loadProducts() {
+            try {
+                const data = await apiCall("/products/allProduct");
+                populateProductsTable(data.products || data); // Adjust if your API returns array directly
+            } catch (err) {
+                console.error("Product fetch failed:", err);
+                loadDefaultProducts(); // fallback
+            }
+        }
+
+        // Dummy fallback products
+        function loadDefaultProducts() {
+            const products = [
+                { id: 1, productName: "LATACK 150MG TAB", batchNo: "10-S CAVTAX-007", expiryDate: "2026-06-01", price: 12.3, stock: "In Stock" },
+                // Add more sample entries as needed
+            ];
+            populateProductsTable(products);
+        }
+
+
+        function populateProductsTable(products) {
+            const tbody = document.getElementById("productsTableBody");
+            if (!products || !products.length) {
+                tbody.innerHTML = '<tr><td colspan="7" class="text-center">No products found</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = products.map((p, i) => `
+    <tr>
+        <td>${i + 1}</td>
+        <td>${p.productName}</td>
+        <td>${p.batchNo}</td>
+        <td>${p.expiryDate}</td>
+        <td>₹${p.price.toFixed(2)}</td>
+        <td><span class="status-badge">${p.stock}</span></td>
+        <td>
+            <input type="number" min="1" value="1" id="qty-${i}" style="width: 60px; margin-right: 5px;" />
+            <button class="btn btn-sm btn-primary" onclick="addToCart('${p.productName}', '${p.batchNo}', ${p.price}, document.getElementById('qty-${i}').value)">
+                Add to Cart
+            </button>
+        </td>
+    </tr>
+`).join("");
+
+        }
+
+        function addToCart(name, batch, price, quantity) {
+            quantity = parseInt(quantity);
+            if (isNaN(quantity) || quantity <= 0) {
+                showMessage("Please enter a valid quantity", "error");
+                return;
+            }
+
+            const existingCart = JSON.parse(localStorage.getItem("cartItems") || "[]");
+
+            const existingIndex = existingCart.findIndex(item =>
+                item.productName === name && item.batchNo === batch
+            );
+
+            if (existingIndex > -1) {
+                existingCart[existingIndex].quantity += quantity;
+                existingCart[existingIndex].total = existingCart[existingIndex].price * existingCart[existingIndex].quantity;
+            } else {
+                existingCart.push({
+                    productName: name,
+                    batchNo: batch,
+                    price: price,
+                    quantity: quantity,
+                    total: price * quantity
+                });
+            }
+
+            localStorage.setItem("cartItems", JSON.stringify(existingCart));
+            localStorage.setItem("justAddedToCart", "true");
+            window.location.href = "billings.html";
+
+        }
+
+
+
+        // Add product form submit
+        document.getElementById("addProductForm").addEventListener("submit", async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(e.target);
+            const payload = Object.fromEntries(formData.entries());
+
+            // Optional: parse numerical fields
+            payload.price = parseFloat(payload.price);
+            payload.mrp = parseFloat(payload.mrp);
+            payload.quantity = parseInt(payload.quantity);
+
+            const submitBtn = document.getElementById("submitProductBtn");
+            const spinner = document.getElementById("submitSpinner");
+            const btnText = document.getElementById("submitBtnText");
+
+            submitBtn.disabled = true;
+            spinner.classList.remove("hidden");
+            btnText.classList.add("hidden");
+
+            try {
+                await apiCall("/products/addProduct", {
+                    method: "POST",
+                    body: JSON.stringify(payload),
+                });
+
+                showMessage("Product added successfully!");
+                e.target.reset();
+                await loadProducts();
+                showListView();
+            } catch (err) {
+                console.error("Error adding product:", err);
+                showMessage("Failed to add product", "error");
+            } finally {
+                submitBtn.disabled = false;
+                spinner.classList.add("hidden");
+                btnText.classList.remove("hidden");
+            }
+        });
+
+        // Init
+        if (checkAuth()) {
+            loadProducts();
+        }
+    </script>
+
+</body>
+
+</html>

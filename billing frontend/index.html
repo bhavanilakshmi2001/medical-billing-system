@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Medical Billing - Dashboard</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+    <!-- Sidebar Navigation -->
+    <div class="sidebar">
+        <div class="sidebar-header">
+            <h1 class="sidebar-title">Kani Medicals</h1>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="index.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                    </path>
+                </svg>
+                Overview
+            </a>
+
+            <a href="products.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"></path>
+                </svg>
+                Products
+            </a>
+
+            <a href="billings.html" class="nav-item">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z">
+                    </path>
+                </svg>
+                Billing
+            </a>
+
+            <a href="invoices.html" class="nav-item active">
+                <svg class="nav-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                    </path>
+                </svg>
+                Invoice
+            </a>
+        </nav>
+
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="page-container">
+            <div class="stat-container">
+                <div class="stats-grid" id="statsGrid"></div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="chart-container">
+                    <div class="chart-header">
+                        <h3 class="chart-title">Sales Overview</h3>
+                        <span class="chart-subtitle">Monthly</span>
+                    </div>
+                    <canvas id="salesChart" class="chart-canvas"></canvas>
+                </div>
+                <div class="report-container">
+                    <h3 class="chart-title">Purchase Report</h3>
+                    <div id="purchaseReport"></div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = "http://localhost:8080";
+
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem("authToken");
+            if (!token) {
+                window.location.href = "login.html";
+                return false;
+            }
+            return true;
+        }
+
+        document.getElementById("logoutBtn").addEventListener("click", () => {
+            localStorage.removeItem("authToken");
+            localStorage.removeItem("user");
+            window.location.href = "login.html";
+        });
+
+        async function apiCall(endpoint, options = {}) {
+            const defaultOptions = {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            };
+            const merged = {
+                ...defaultOptions,
+                ...options,
+                headers: { ...defaultOptions.headers, ...options.headers }
+            };
+            const res = await fetch(`${API_BASE}${endpoint}`, merged);
+            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
+            return res.json();
+        }
+
+
+        function createStatsCard(title, value, color, iconPath) {
+            return `
+        <div class="stat-card ${color}">
+          <div class="stat-content">
+            <div class="stat-info">
+              <h3>${title}</h3><p>${value}</p>
+            </div>
+            <div class="stat-icon">
+              <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${iconPath}"></path>
+              </svg>
+            </div>
+          </div>
+        </div>`;
+        }
+
+        function createSalesChart(monthlyRevenue) {
+            const ctx = document.getElementById("salesChart").getContext("2d");
+            if (window.salesChartInstance) window.salesChartInstance.destroy();
+
+            const months = ["Jan", "Feb", "Mar", "Apr", "May", "June", "July", "Aug", "Sep", "Oct", "Nov", "Dec"];
+            const data = Array.isArray(monthlyRevenue) && monthlyRevenue.length === 12
+                ? monthlyRevenue
+                : [65, 70, 68, 75, 72, 95, 80, 85, 78, 90, 88, 92];
+
+            window.salesChartInstance = new Chart(ctx, {
+                type: "line",
+                data: {
+                    labels: months,
+                    datasets: [{
+                        label: "Sales",
+                        data,
+                        borderColor: "#00BFFF",
+                        backgroundColor: "rgba(0, 191, 255, 0.1)",
+                        borderWidth: 3,
+                        pointBackgroundColor: "#00BFFF",
+                        pointBorderColor: "#00BFFF",
+                        pointRadius: 6,
+                        pointHoverRadius: 8,
+                        tension: 0.4,
+                    }],
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: "#f1f5f9" }, ticks: { color: "#6b7280" } },
+                        x: { grid: { display: false }, ticks: { color: "#6b7280" } },
+                    },
+                },
+            });
+        }
+
+        function populatePurchaseReport({ todayOrderedCount, todayRevenue }) {
+            const report = document.getElementById("purchaseReport");
+            report.innerHTML = `
+        <div class="report-item">
+          <div class="report-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4m-2.4 8l1.25 5h12.5"></path></svg>
+          </div>
+          <div class="report-text">
+            <h4>Today Items Ordered</h4>
+            <p>${todayOrderedCount} Products</p>
+          </div>
+        </div>
+        <div class="report-item">
+          <div class="report-icon">
+            <svg fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path></svg>
+          </div>
+          <div class="report-text">
+            <h4>Amount Received</h4>
+            <p>₹${todayRevenue.toLocaleString()}</p>
+          </div>
+        </div>`;
+        }
+
+        async function loadDashboardData() {
+            try {
+                const data = await apiCall("/overview/dashboard");
+                const statsGrid = document.getElementById("statsGrid");
+
+                statsGrid.innerHTML = `
+          ${createStatsCard("Total Revenue", data.totalRevenue.toLocaleString(), "blue", "M13 7h8m0 0v8m0-8l-8 8-4-4-6 6")}
+          ${createStatsCard("Stock", data.totalStock, "purple", "M20 7l-8-4-8 4…")}
+          ${createStatsCard("Out of Stock", data.outOfStock, "orange", "M12 9v2m0 4h…")}
+          ${createStatsCard("Expired", data.expiredProducts, "gray", "M12 8v4l3 3…")}
+        `;
+
+                createSalesChart(data.monthlyRevenue);
+                populatePurchaseReport(data);
+            } catch (e) {
+                console.error("Error loading:", e);
+            }
+        }
+
+        if (checkAuth()) {
+            loadDashboardData();
+        }
+    </script>
+</body>
+
+</html>
