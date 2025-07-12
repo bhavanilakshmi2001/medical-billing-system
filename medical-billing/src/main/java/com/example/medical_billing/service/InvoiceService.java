@@ -70,7 +70,7 @@ public class InvoiceService {
                 Table table = new Table(colWidths);
                 table.setWidth(UnitValue.createPercentValue(100));
 
-                String[] headers = { "S.No", "Item Summary", "Batch No", "Expiry", "Price", "Qty", "Total" };
+                String[] headers = { "S.No", "Item Summary", "Batch No","Price", "Qty", "Total" };
                 for (String h : headers) {
                         table.addHeaderCell(new Cell().add(new Paragraph(h).setBold().setFontSize(9))
                                         .setBackgroundColor(ColorConstants.BLUE)
